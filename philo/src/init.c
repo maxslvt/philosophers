@@ -38,8 +38,8 @@ int	ft_init_values(t_data *data, int ac, char **av)
 	}
 	else
 		data->nb_eat_max = -1;
-	data->is_started = 0;
-	data->simulation_ended = 0;
+	data->is_started = false;
+	data->is_ended = false;
 	data->nb_finished = 0;
 	return (1);
 }
@@ -51,7 +51,7 @@ void	ft_philo_init(t_data *data, int idx)
 	philo = &data->tab_philo[idx];
 	philo->id = idx;
 	philo->data = data;
-	philo->is_alive = 1;
+	philo->is_alive = true;
 	philo->last_meal_ms = 0;
 	philo->nb_meal = 0;
 	philo->f_left = idx;

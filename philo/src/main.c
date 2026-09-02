@@ -23,10 +23,10 @@ void	ft_free_data(t_data *data)
 		free(data->tab_philo);
 }
 
-int	ft_parse_arg(const char *str)
+long	ft_parse_arg(const char *str)
 {
-	long int	res;
-	int			i;
+	long	res;
+	int		i;
 
 	res = 0;
 	i = 0;
@@ -39,13 +39,11 @@ int	ft_parse_arg(const char *str)
 		if (str[i] < '0' || str[i] > '9')
 			return (-1);
 		res = res * 10 + (str[i] - '0');
-		if (res > 2147483647)
-			return (-1);
 		i++;
 	}
 	if (res <= 0)
 		return (-1);
-	return ((int)res);
+	return (res);
 }
 
 int	ft_create_threads(t_data *data)
@@ -63,7 +61,7 @@ int	ft_create_threads(t_data *data)
 		i++;
 	}
 	pthread_mutex_lock(&data->data_m);
-	data->is_started = 1;
+	data->is_started = true;
 	pthread_mutex_unlock(&data->data_m);
 	return (-1);
 }
@@ -88,7 +86,7 @@ int	main(int ac, char **av)
 	if (i != -1)
 	{
 		pthread_mutex_lock(&data.data_m);
-		data.simulation_ended = 1;
+		data.is_ended = true;
 		pthread_mutex_unlock(&data.data_m);
 		ft_wait_threads(&data, i);
 		ft_free_data(&data);

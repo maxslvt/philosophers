@@ -33,14 +33,18 @@ $(NAME): $(OBJS)
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.c $(INCDIR)/philo.h
 	@mkdir -p ${dir $@}
-	@printf "🟡 $(MAGENTA)[COMPILING📦] $<$(RESET)\n"
+	@printf "$(BLUE)[PHILO] Compiling: $(CYAN)$<$(RESET)\n"
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
+	@printf "$(MAGENTA)[PHILO] Cleaning object files...$(RESET)\n"
 	@rm -rf $(OBJDIR)
+	@printf "$(GREEN)[PHILO] Cleaned !$(RESET)\n"
 
 fclean: clean
+	@printf "$(MAGENTA)[PHILO] Cleaning executable...$(RESET)\n"
 	@rm -rf $(NAME)
+	@printf "$(GREEN)[PHILO] Cleaned !$(RESET)\n"
 
 re: fclean all
 

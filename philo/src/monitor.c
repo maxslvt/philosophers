@@ -1,17 +1,17 @@
 
 #include "philo.h"
 
-int	ft_has_simulation_stopped(t_data *data)
+bool	ft_has_simulation_stopped(t_data *data)
 {
-	int	stopped;
+	bool	stopped;
 
 	pthread_mutex_lock(&data->data_m);
-	stopped = data->simulation_ended;
+	stopped = data->is_ended;
 	pthread_mutex_unlock(&data->data_m);
 	return (stopped);
 }
 
-int	ft_wait_start(t_data *data)
+bool	ft_wait_start(t_data *data)
 {
 	while (1)
 	{
@@ -19,12 +19,12 @@ int	ft_wait_start(t_data *data)
 		if (data->is_started)
 		{
 			pthread_mutex_unlock(&data->data_m);
-			return (1);
+			return (true);
 		}
-		if (data->simulation_ended)
+		if (data->is_ended)
 		{
 			pthread_mutex_unlock(&data->data_m);
-			return (0);
+			return (false);
 		}
 		pthread_mutex_unlock(&data->data_m);
 		usleep(200);
@@ -39,7 +39,7 @@ static int	ft_check_philo_death(t_data *data, int i)
 	{
 		pthread_mutex_lock(&data->print_m);
 		pthread_mutex_lock(&data->data_m);
-		data->simulation_ended = 1;
+		data->is_ended = true;
 		pthread_mutex_unlock(&data->data_m);
 		printf("%ld %d %s", get_timestamp(data->start_time),
 			data->tab_philo[i].id + 1, "died\n");
@@ -61,7 +61,7 @@ void	ft_wait_death(t_data *data)
 		pthread_mutex_lock(&data->data_m);
 		if (data->nb_finished >= data->nb_philo)
 		{
-			data->simulation_ended = 1;
+			data->is_ended = true;
 			pthread_mutex_unlock(&data->data_m);
 			break ;
 		}

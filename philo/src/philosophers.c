@@ -62,7 +62,7 @@ static int	ft_check_meal(t_data *data, t_philo *philo)
 		data->nb_finished++;
 		pthread_mutex_unlock(&data->data_m);
 		pthread_mutex_lock(&philo->philo_m); //added
-		philo->is_alive = 0; //added
+		philo->is_alive = false; //added
 		pthread_mutex_unlock(&philo->philo_m); //added
 		return (0);
 	}

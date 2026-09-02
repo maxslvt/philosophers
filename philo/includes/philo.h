@@ -3,6 +3,7 @@
 # define PHILO_H
 
 # include <pthread.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -14,7 +15,7 @@ struct	s_data;
 typedef struct s_philo
 {
 	int				id;
-	int				is_alive;
+	bool			is_alive;
 	pthread_t		thid;
 	long			last_meal_ms;
 	int				nb_meal;
@@ -26,15 +27,15 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	int				is_started;
-	int				simulation_ended;
+	bool			is_started;
+	bool			is_ended;
 	int				nb_philo;
 	int				nb_finished;
 	int				nb_eat_max;
 	long			start_time;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
+	long			time_die;
+	long			time_eat;
+	long			time_sleep;
 	t_philo			*tab_philo;
 	pthread_mutex_t	*tab_fork;
 	pthread_mutex_t	data_m;
@@ -42,7 +43,7 @@ typedef struct s_data
 }					t_data;
 
 void				ft_wait_setup(t_data *data);
-int					ft_wait_start(t_data *data);
+bool				ft_wait_start(t_data *data);
 void				ft_wait_death(t_data *data);
 void				*ft_philo(void *arg);
 void				*ft_philo_one(t_data *data, t_philo *philo);
@@ -52,10 +53,10 @@ void				ft_print_routine(t_data *data, int id, const char *routine);
 int					ft_usleep(unsigned int time, t_data *data);
 long int			gettime(void);
 long int			get_timestamp(long start_time);
-int					ft_has_simulation_stopped(t_data *data);
+bool				ft_has_simulation_stopped(t_data *data);
 int					ft_init(t_data *data, int ac, char **av);
 void				ft_philo_init(t_data *data, int idx);
-int					ft_parse_arg(const char *str);
+long				ft_parse_arg(const char *str);
 void				ft_free_data(t_data *data);
 
 #endif

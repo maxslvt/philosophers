@@ -1,6 +1,6 @@
-*This project has been created as part of the 42 curriculum by maxslvt.*
+*This project has been created as part of the 42 curriculum by <masolet->.*
 
-# Philosophers - I never thought philosophy would be so deadly
+# Philosophers
 
 ## Description
 This project is an introduction to concurrent programming, multi-threading, and process synchronization using POSIX threads (`pthreads`) and mutexes in C. It is a classical implementation of Dijkstra's **Dining Philosophers Problem**.

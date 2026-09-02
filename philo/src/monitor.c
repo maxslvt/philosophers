@@ -1,5 +1,5 @@
 
-#include "../inc/philosopher.h"
+#include "philo.h"
 
 int	ft_has_simulation_stopped(t_data *data)
 {
@@ -84,16 +84,4 @@ void	ft_wait_threads(t_data *data, int nb)
 		pthread_join(data->tab_philo[i].thid, NULL);
 		i++;
 	}
-}
-
-int	ft_is_neg(char *str)
-{
-	int	i;
-
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-		i++;
-	if (str[i] == '-')
-		return (1);
-	return (0);
 }

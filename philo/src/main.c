@@ -1,45 +1,6 @@
 
-#include "../inc/philosopher.h"
+#include "philo.h"
 
-static int	ft_nbnb(char *str)
-{
-	int	nb;
-	int	i;
-
-	nb = 0;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		nb++;
-		i++;
-	}
-	return (nb);
-}
-
-int	is_int(char *str, int nb)
-{
-	if (ft_nbnb(str) > 10)
-		return (0);
-	if (ft_nbnb(str) == 10 && nb < 1000000000)
-		return (0);
-	if (ft_is_neg(str))
-		return (0);
-	return (1);
-}
-
-int	ft_check_data(t_data *data, char **av)
-{
-	if (is_int(av[1], data->nb_philo) && is_int(av[2], data->time_die)
-		&& is_int(av[3], data->time_eat) && is_int(av[4], data->time_sleep)
-		&& data->nb_philo > 0 && data->time_die > 0 && data->time_eat > 0
-		&& data->time_sleep > 0)
-		return (1);
-	return (0);
-}
 
 void	ft_free_data(t_data *data)
 {
@@ -60,6 +21,60 @@ void	ft_free_data(t_data *data)
 		free(data->tab_fork);
 	if (data->tab_philo)
 		free(data->tab_philo);
+}
+
+int	ft_parse_arg(const char *str)
+{
+	long int	res;
+	int			i;
+
+	res = 0;
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (-1);
+		res = res * 10 + (str[i] - '0');
+		if (res > 2147483647)
+			return (-1);
+		i++;
+	}
+	if (res <= 0)
+		return (-1);
+	return ((int)res);
+}
+
+int	ft_create_threads(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->start_time = gettime();
+	while (i < data->nb_philo)
+	{
+		data->tab_philo[i].last_meal_ms = data->start_time;
+		if (pthread_create(&data->tab_philo[i].thid, NULL, ft_philo,
+				&data->tab_philo[i]) != 0)
+			return (i);
+		i++;
+	}
+	pthread_mutex_lock(&data->data_m);
+	data->is_started = 1;
+	pthread_mutex_unlock(&data->data_m);
+	return (-1);
+}
+
+void	*ft_philo_one(t_data *data, t_philo *philo)
+{
+	pthread_mutex_lock(&data->tab_fork[philo->f_left]);
+	ft_print_routine(data, philo->id, "has taken a fork\n");
+	ft_usleep(data->time_die, data);
+	pthread_mutex_unlock(&data->tab_fork[philo->f_left]);
+	return (NULL);
 }
 
 int	main(int ac, char **av)

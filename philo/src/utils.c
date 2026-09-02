@@ -1,5 +1,5 @@
 
-#include "../inc/philosopher.h"
+#include "philo.h"
 
 long int	gettime(void)
 {
@@ -7,6 +7,14 @@ long int	gettime(void)
 
 	gettimeofday(&timeval, NULL);
 	return (timeval.tv_sec * 1000 + timeval.tv_usec / 1000);
+}
+
+static long int	gettime_micro(void)
+{
+	struct timeval	timeval;
+
+	gettimeofday(&timeval, NULL);
+	return (timeval.tv_sec * 1000000 + timeval.tv_usec);
 }
 
 long int	get_timestamp(long start_time)
@@ -25,32 +33,25 @@ void	ft_print_routine(t_data *data, int id, const char *routine)
 int	ft_usleep(unsigned int time, t_data *data)
 {
 	long	start;
+	long	remains;
+	long	time_micro;
 
-	start = gettime();
-	while ((gettime() - start) < time)
+	time_micro = (long)time * 1000;
+	start = gettime_micro();
+	while (1)
 	{
 		if (ft_has_simulation_stopped(data))
 			break ;
-		usleep(500);
+		remains = time_micro - (gettime_micro() - start);
+		if (remains <= 0)
+			break ;
+		remains /= 1000;
+		if (remains > 50)
+			usleep(40000);
+		else if (remains > 5)
+			usleep((remains - 2) * 1000);
+		else
+			usleep(100);
 	}
 	return (0);
-}
-
-int	ft_atoi(const char *str)
-{
-	int		result;
-	int		sign;
-	size_t	i;
-
-	sign = 1;
-	result = 0;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-		if (str[i++] == '-')
-			sign = -1;
-	while (str[i] >= '0' && str[i] <= '9')
-		result = result * 10 + str[i++] - '0';
-	return (result * sign);
 }

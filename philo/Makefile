@@ -10,8 +10,9 @@ CFLAGS = -Wall -Wextra -Werror -I$(INCDIR)
 SRC = main.c \
 	monitor.c \
 	utils.c \
-	philosophers.c \
-	init.c \
+	time.c \
+	routine.c \
+	init.c
 
 RED     = \033[1;31m
 GREEN   = \033[1;32m

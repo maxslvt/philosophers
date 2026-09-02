@@ -14,49 +14,53 @@ struct	s_data;
 
 typedef struct s_philo
 {
-	int				id;
-	bool			is_alive;
-	pthread_t		thid;
+	pthread_mutex_t	state_mutex;
+	pthread_t		thread_id;
 	long			last_meal_ms;
-	int				nb_meal;
-	int				f_left;
-	int				f_right;
-	pthread_mutex_t	philo_m;
 	struct s_data	*data;
+	int				id;
+	int				meals_eaten;
+	int				left_fork_id;
+	int				right_fork_id;
+	bool			is_alive;
 }					t_philo;
 
 typedef struct s_data
 {
+	pthread_mutex_t	data_mutex;
+	pthread_mutex_t	write_mutex;
+	long			start_time;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+	int				philo_count;
+	int				finished_count;
+	int				meals_limit;
 	bool			is_started;
 	bool			is_ended;
-	int				nb_philo;
-	int				nb_finished;
-	int				nb_eat_max;
-	long			start_time;
-	long			time_die;
-	long			time_eat;
-	long			time_sleep;
-	t_philo			*tab_philo;
-	pthread_mutex_t	*tab_fork;
-	pthread_mutex_t	data_m;
-	pthread_mutex_t	print_m;
 }					t_data;
 
-void				ft_wait_setup(t_data *data);
-bool				ft_wait_start(t_data *data);
-void				ft_wait_death(t_data *data);
-void				*ft_philo(void *arg);
-void				*ft_philo_one(t_data *data, t_philo *philo);
-void				ft_wait_threads(t_data *data, int nb);
-int					ft_create_threads(t_data *data);
-void				ft_print_routine(t_data *data, int id, const char *routine);
-int					ft_usleep(unsigned int time, t_data *data);
-long int			gettime(void);
-long int			get_timestamp(long start_time);
-bool				ft_has_simulation_stopped(t_data *data);
-int					ft_init(t_data *data, int ac, char **av);
-void				ft_philo_init(t_data *data, int idx);
-long				ft_parse_arg(const char *str);
-void				ft_free_data(t_data *data);
+/* init.c */
+int					init_data(t_data *data, int ac, char **av);
+
+/* time.c */
+long				get_current_time(void);
+long				get_elapsed_time(long start_time);
+int					precise_usleep(unsigned int time, t_data *data);
+
+/* routine.c */
+void				*philosopher_routine(void *arg);
+
+/* monitor.c */
+bool				is_simulation_stopped(t_data *data);
+bool				wait_for_start(t_data *data);
+void				monitor_routine(t_data *data);
+
+/* utils.c */
+long				parse_argument(const char *str);
+void				print_action(t_data *data, int id, const char *routine);
+void				cleanup_data(t_data *data);
 
 #endif

@@ -3,22 +3,21 @@
 # Philosophers
 
 ## Description
-This project is an introduction to concurrent programming, multi-threading, and process synchronization using POSIX threads (`pthreads`) and mutexes in C. It is a classical implementation of Dijkstra's **Dining Philosophers Problem**.
+This project is an introduction to concurrent programming, multi-threading, and process synchronization using POSIX threads and mutexes in C. It is a classical implementation of **Dining Philosophers Problem**.
 
 The goal of the project is to simulate a group of philosophers sitting around a circular table with a bowl of spaghetti in the middle and forks placed between each pair of adjacent philosophers. A philosopher must alternate between **eating**, **sleeping**, and **thinking**. To eat, a philosopher must acquire both their left and right forks.
 
 ### Objectives & Challenges
 - **Thread Management**: Each philosopher is represented by an independent POSIX thread.
-- **Mutex Protection**: Shared resources (forks and state variables) are protected using mutexes (`pthread_mutex_t`) to prevent race conditions and duplicate fork usage.
-- **Deadlock Avoidance**: Asymmetric fork acquisition strategy to guarantee that circular waits never occur.
-- **Precision Timing**: Microsecond-calibrated sleep routines and precise death detection (< 10 ms latency).
+- **Mutex Protection**: Shared resources (forks and state variables) are protected using mutexes to prevent race conditions and duplicate fork usage.
+- **Precision Timing**: Microsecond-calibrated sleep routines and precise death detection.
 
 ---
 
 ## Instructions
 
 ### Compilation
-The project is built using `make` with standard 42 flags (`-Wall -Wextra -Werror`):
+The project is built using `make` with flags (`-Wall -Wextra -Werror`):
 
 ```bash
 cd philo
@@ -48,7 +47,7 @@ Run the executable with 4 or 5 arguments:
 #### Usage Examples
 
 ```bash
-# Philosopher 1 should die at 800 ms
+# Philosopher 1 should die
 ./philo 1 800 200 200
 
 # No philosopher should die
@@ -56,9 +55,6 @@ Run the executable with 4 or 5 arguments:
 
 # Stop after each philosopher eats 7 times
 ./philo 5 800 200 200 7
-
-# Stress test (no death)
-./philo 4 410 200 200
 ```
 
 ---
@@ -68,11 +64,7 @@ Run the executable with 4 or 5 arguments:
 ### References & Documentation
 - [POSIX Threads (pthreads) Programming Guide](https://man7.org/linux/man-pages/man7/pthreads.7.html)
 - [Dining Philosophers Problem - Wikipedia](https://en.wikipedia.org/wiki/Dining_philosophers_problem)
-- [GNU C Library: Date and Time Operations (`gettimeofday`)](https://www.gnu.org/software/libc/manual/html_node/High_Resolution_Calendar.html)
-- [ThreadSanitizer (`-fsanitize=thread`) Documentation](https://clang.llvm.org/docs/ThreadSanitizer.html)
 
 ### AI Usage Declaration
-In accordance with the 42 curriculum guidelines regarding AI assistance:
-- **Code Optimization & Profiling**: AI was used to analyze CPU usage bottlenecks, identify high-frequency polling in thread synchronization loops, and optimize `usleep` granularity down to 500 micro-seconds.
-- **Race Condition Prevention**: AI assisted in auditing mutex scopes across shared data structures (`t_data` and `t_philo`) to ensure strict ThreadSanitizer compliance.
-- **Documentation & README Structure**: AI was used to format and structure this `README.md` to conform strictly to 42 Chapter VII requirements.
+- **Code Optimization**: AI was used to create a tester.
+- **README Language**: AI was used to translate this `README.md` in english.

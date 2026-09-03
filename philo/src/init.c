@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: masolet- <masolet-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 14:32:38 by masolet-          #+#    #+#             */
+/*   Updated: 2026/09/03 14:55:52 by masolet-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-/* Initializes all required mutexes for forks, data, and writing */
+/*
+// Initializes all required mutexes for forks, data, and writing
+*/
 static int	init_mutexes(t_data *data)
 {
 	int	i;
@@ -21,14 +35,16 @@ static int	init_mutexes(t_data *data)
 	return (1);
 }
 
-/* Parses arguments and initializes the simulation parameters */
+/*
+// Parses arguments and initializes the simulation parameters
+*/
 static int	init_values(t_data *data, int ac, char **av)
 {
 	data->philo_count = parse_argument(av[1]);
 	data->time_to_die = parse_argument(av[2]);
 	data->time_to_eat = parse_argument(av[3]);
 	data->time_to_sleep = parse_argument(av[4]);
-	if (data->philo_count == -1 || data->time_to_die == -1 
+	if (data->philo_count == -1 || data->time_to_die == -1
 		|| data->time_to_eat == -1 || data->time_to_sleep == -1)
 		return (0);
 	if (ac == 6)
@@ -45,7 +61,9 @@ static int	init_values(t_data *data, int ac, char **av)
 	return (1);
 }
 
-/* Initializes individual philosopher state and assigns their forks */
+/*
+// Initializes individual philosopher state and assigns their forks
+*/
 static void	init_philosophers(t_data *data, int idx)
 {
 	t_philo	*philo;
@@ -64,7 +82,9 @@ static void	init_philosophers(t_data *data, int idx)
 	}
 }
 
-/* Allocates memory for the philosophers array and the forks array */
+/*
+// Allocates memory for the philosophers array and the forks array
+*/
 static int	alloc_data(t_data *data)
 {
 	data->philos = malloc(sizeof(t_philo) * data->philo_count);
@@ -80,7 +100,9 @@ static int	alloc_data(t_data *data)
 	return (1);
 }
 
-/* Main initialization function that sets up all data structures */
+/*
+// Main initialization function that sets up all data structures
+*/
 int	init_data(t_data *data, int ac, char **av)
 {
 	int	i;

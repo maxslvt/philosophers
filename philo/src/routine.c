@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: masolet- <masolet-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 14:32:48 by masolet-          #+#    #+#             */
+/*   Updated: 2026/09/03 14:57:43 by masolet-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-/* Special routine for a single philosopher to avoid instant deadlock */
+/*
+// Special routine for a single philosopher to avoid instant deadlock
+*/
 static void	*single_philo_routine(t_data *data, t_philo *philo)
 {
 	pthread_mutex_lock(&data->forks[philo->left_fork_id]);
@@ -10,7 +24,10 @@ static void	*single_philo_routine(t_data *data, t_philo *philo)
 	return (NULL);
 }
 
-/* Calculates and executes the optimal thinking time to avoid desynchronization */
+/*
+// Calculates and executes the optimal thinking 
+// time to avoid desynchronization
+*/
 static void	philo_think(t_data *data, t_philo *philo)
 {
 	long	time_to_think;
@@ -33,7 +50,9 @@ static void	philo_think(t_data *data, t_philo *philo)
 		precise_usleep(time_to_think * 0.4, data);
 }
 
-/* Checks if the philosopher has reached the maximum number of meals */
+/*
+// Checks if the philosopher has reached the maximum number of meals
+*/
 static int	check_meals_limit(t_data *data, t_philo *philo)
 {
 	if (data->meals_limit != -1 && philo->meals_eaten >= data->meals_limit)
@@ -49,7 +68,9 @@ static int	check_meals_limit(t_data *data, t_philo *philo)
 	return (1);
 }
 
-/* Handles the eating process: locking forks, updating stats, and eating */
+/*
+// Handles the eating process: locking forks, updating stats, and eating
+*/
 static void	philo_eat(t_data *data, int idx)
 {
 	t_philo	*philo;
@@ -67,7 +88,8 @@ static void	philo_eat(t_data *data, int idx)
 	if (!is_simulation_stopped(data))
 	{
 		t = get_elapsed_time(data->start_time);
-		printf("%ld %d has taken a fork\n%ld %d is eating\n", t, idx + 1, t, idx + 1);
+		printf("%ld %d has taken a fork\n%ld %d is eating\n",
+			t, idx + 1, t, idx + 1);
 	}
 	pthread_mutex_unlock(&data->write_mutex);
 	precise_usleep(data->time_to_eat, data);
@@ -75,7 +97,9 @@ static void	philo_eat(t_data *data, int idx)
 	pthread_mutex_unlock(&data->forks[philo->right_fork_id]);
 }
 
-/* The main lifecycle of a philosopher: eat, sleep, and think */
+/*
+// The main lifecycle of a philosopher: eat, sleep, and think
+*/
 void	*philosopher_routine(void *arg)
 {
 	t_philo	*philo;

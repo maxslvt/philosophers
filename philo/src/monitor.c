@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: masolet- <masolet-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 14:32:45 by masolet-          #+#    #+#             */
+/*   Updated: 2026/09/03 14:57:00 by masolet-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
-/* Safely checks if the simulation has ended (death or meals reached) */
+/*
+// Safely checks if the simulation has ended (death or meals reached)
+*/
 bool	is_simulation_stopped(t_data *data)
 {
 	bool	stopped;
@@ -12,7 +25,9 @@ bool	is_simulation_stopped(t_data *data)
 	return (stopped);
 }
 
-/* Busy waits until the main thread signals that all threads are created */
+/*
+// Busy waits until the main thread signals that all threads are created
+*/
 bool	wait_for_start(t_data *data)
 {
 	while (1)
@@ -33,7 +48,9 @@ bool	wait_for_start(t_data *data)
 	}
 }
 
-/* Checks if a single philosopher has starved to death */
+/*
+// Checks if a single philosopher has starved to death
+*/
 static int	check_philo_death(t_data *data, int i)
 {
 	pthread_mutex_lock(&data->philos[i].state_mutex);
@@ -54,7 +71,9 @@ static int	check_philo_death(t_data *data, int i)
 	return (0);
 }
 
-/* Continuously monitors all philosophers for death or completion */
+/*
+// Continuously monitors all philosophers for death or completion
+*/
 void	monitor_routine(t_data *data)
 {
 	int	i;

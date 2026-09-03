@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: masolet- <masolet-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 14:32:51 by masolet-          #+#    #+#             */
+/*   Updated: 2026/09/03 14:58:25 by masolet-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-/* Returns the current time in milliseconds */
+/*
+// Returns the current time in milliseconds
+*/
 long	get_current_time(void)
 {
 	struct timeval	timeval;
@@ -9,7 +23,9 @@ long	get_current_time(void)
 	return (timeval.tv_sec * 1000 + timeval.tv_usec / 1000);
 }
 
-/* Returns the current time in microseconds for precise calculations */
+/*
+// Returns the current time in microseconds for precise calculations
+*/
 static long	get_current_time_micro(void)
 {
 	struct timeval	timeval;
@@ -18,13 +34,18 @@ static long	get_current_time_micro(void)
 	return (timeval.tv_sec * 1000000 + timeval.tv_usec);
 }
 
-/* Calculates the elapsed time in milliseconds since the start of the simulation */
+/*
+// Calculates the elapsed time in milliseconds
+// since the start of the simulation
+*/
 long	get_elapsed_time(long start_time)
 {
 	return (get_current_time() - start_time);
 }
 
-/* A more precise alternative to usleep using smaller intervals */
+/*
+// A more precise alternative to usleep using smaller intervals
+*/
 int	precise_usleep(unsigned int time, t_data *data)
 {
 	long	start;

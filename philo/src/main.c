@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: masolet- <masolet-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 14:32:41 by masolet-          #+#    #+#             */
+/*   Updated: 2026/09/03 14:56:22 by masolet-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-/* Creates a thread for each philosopher and starts the simulation */
+/*
+// Creates a thread for each philosopher and starts the simulation
+*/
 static int	start_simulation(t_data *data)
 {
 	int	i;
@@ -10,8 +24,8 @@ static int	start_simulation(t_data *data)
 	while (i < data->philo_count)
 	{
 		data->philos[i].last_meal_ms = data->start_time;
-		if (pthread_create(&data->philos[i].thread_id, NULL, philosopher_routine,
-				&data->philos[i]) != 0)
+		if (pthread_create(&data->philos[i].thread_id, NULL,
+				philosopher_routine, &data->philos[i]) != 0)
 			return (i);
 		i++;
 	}
@@ -21,7 +35,9 @@ static int	start_simulation(t_data *data)
 	return (-1);
 }
 
-/* Waits for all philosopher threads to finish their execution */
+/*
+// Waits for all philosopher threads to finish their execution
+*/
 static void	join_threads(t_data *data, int nb)
 {
 	int	i;
@@ -34,7 +50,10 @@ static void	join_threads(t_data *data, int nb)
 	}
 }
 
-/* Main entry point: initializes data, starts simulation, and monitors until end */
+/* 
+// Main entry point: initializes data, starts simulation, 
+// and monitors until end
+*/
 int	main(int ac, char **av)
 {
 	t_data	data;

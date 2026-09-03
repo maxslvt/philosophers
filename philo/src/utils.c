@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: masolet- <masolet-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/03 14:32:54 by masolet-          #+#    #+#             */
+/*   Updated: 2026/09/03 14:58:46 by masolet-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-/* Parses a string argument into a strictly positive integer */
+/*
+// Parses a string argument into a strictly positive integer
+*/
 long	parse_argument(const char *str)
 {
 	long	res;
@@ -24,16 +38,21 @@ long	parse_argument(const char *str)
 	return (res);
 }
 
-/* Safely prints a philosopher's action with a timestamp */
+/*
+// Safely prints a philosopher's action with a timestamp
+*/
 void	print_action(t_data *data, int id, const char *routine)
 {
 	pthread_mutex_lock(&data->write_mutex);
 	if (!is_simulation_stopped(data))
-		printf("%ld %d %s", get_elapsed_time(data->start_time), id + 1, routine);
+		printf("%ld %d %s", get_elapsed_time(data->start_time),
+			id + 1, routine);
 	pthread_mutex_unlock(&data->write_mutex);
 }
 
-/* Destroys all mutexes and frees allocated memory before exit */
+/*
+// Destroys all mutexes and frees allocated memory before exit
+*/
 void	cleanup_data(t_data *data)
 {
 	int	i;
